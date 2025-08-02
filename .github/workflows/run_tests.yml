@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       deployment_target:
-        description: select test to run
+        description: "Select test to run"
         required: true
         type: choice
-        default: all
+        default: "all"
         options:
-          - all
+          - "all"
 
 jobs:
   run-tests:
@@ -17,4 +17,15 @@ jobs:
     name: Tests
     steps:
       - name: Copy source code
-        uses: actions/ch
+        uses: actions/checkout@v4
+
+      - name: Set up Python env
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -v
